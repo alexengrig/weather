@@ -22,4 +22,8 @@ import lombok.Data;
 @Data
 @Builder
 public class WeatherRequest {
+
+    private String cityId;
+    private String cityName;
+
 }

@@ -16,13 +16,16 @@
 
 package dev.alexengrig.weather.controller;
 
-import dev.alexengrig.weather.payload.WeatherResponse;
+import dev.alexengrig.weather.payload.WeatherRequest;
 import dev.alexengrig.weather.service.WeatherService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/weather")
@@ -32,8 +35,17 @@ public class WeatherController {
     private final WeatherService service;
 
     @GetMapping("/now")
-    public ResponseEntity<WeatherResponse> now() {
-        return ResponseEntity.ok(service.getNow());
+    public ResponseEntity<Object> now(
+            @RequestParam(name = "cityId", required = false) String cityId,
+            @RequestParam(name = "cityName", required = false) String cityName) {
+        if (Objects.isNull(cityId) && Objects.isNull(cityName)) {
+            return ResponseEntity.badRequest().body("pass cityId or cityName");
+        }
+        WeatherRequest request = WeatherRequest.builder()
+                .cityName(cityId)
+                .cityName(cityName)
+                .build();
+        return ResponseEntity.ok(service.getNow(request));
     }
 
 }

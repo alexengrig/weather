@@ -14,13 +14,22 @@
  * limitations under the License.
  */
 
-package dev.alexengrig.weather.service;
+package dev.alexengrig.weather.payload;
 
-import dev.alexengrig.weather.payload.WeatherRequest;
-import dev.alexengrig.weather.payload.WeatherResponse;
+import lombok.Data;
 
-public interface WeatherService {
+import java.util.List;
 
-    WeatherResponse getNow(WeatherRequest request);
+@Data
+public class OpenWeatherMapResponse {
+
+    private List<Weather> weather;
+
+    @Data
+    public static class Weather {
+
+        private String description;
+
+    }
 
 }

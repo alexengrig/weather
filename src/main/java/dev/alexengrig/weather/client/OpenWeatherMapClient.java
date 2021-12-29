@@ -14,13 +14,18 @@
  * limitations under the License.
  */
 
-package dev.alexengrig.weather.service;
+package dev.alexengrig.weather.client;
 
-import dev.alexengrig.weather.payload.WeatherRequest;
-import dev.alexengrig.weather.payload.WeatherResponse;
+import dev.alexengrig.weather.payload.OpenWeatherMapResponse;
+import feign.Param;
+import feign.RequestLine;
 
-public interface WeatherService {
+public interface OpenWeatherMapClient {
 
-    WeatherResponse getNow(WeatherRequest request);
+    @RequestLine("GET /weather?q={name}")
+    OpenWeatherMapResponse weatherByCityName(@Param("name") String name);
+
+    @RequestLine("GET /weather?id={id}")
+    OpenWeatherMapResponse weatherByCityId(@Param("id") String id);
 
 }

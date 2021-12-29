@@ -1,0 +1,14 @@
+{
+  "properties": [
+    {
+      "name": "application.client.openweathermap.api.url",
+      "type": "java.lang.String",
+      "description": "OpenWeatherMap API URL."
+    },
+    {
+      "name": "application.client.openweathermap.api.key",
+      "type": "java.lang.String",
+      "description": "OpenWeatherMap API key."
+    }
+  ]
+}

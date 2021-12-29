@@ -1,2 +1,9 @@
 server:
   port: 8088
+
+application:
+  client:
+    openweathermap:
+      api:
+        url: https://api.openweathermap.org/data/2.5
+        key: { key from https://home.openweathermap.org/api_keys }
