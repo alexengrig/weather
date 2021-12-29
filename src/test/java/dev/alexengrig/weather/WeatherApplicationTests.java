@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.demo;
+package dev.alexengrig.weather;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
