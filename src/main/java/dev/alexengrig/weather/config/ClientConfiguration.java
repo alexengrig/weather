@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Alexengrig Dev.
+ * Copyright 2022 Alexengrig Dev.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@
 package dev.alexengrig.weather.config;
 
 import dev.alexengrig.weather.client.OpenWeatherMapClient;
+import dev.alexengrig.weather.client.WeatherApiClient;
 import feign.Feign;
 import feign.codec.Decoder;
 import feign.codec.Encoder;
@@ -40,7 +41,7 @@ public class ClientConfiguration {
     }
 
     @Bean
-    public OpenWeatherMapClient foo(
+    public OpenWeatherMapClient openWeatherMapClient(
             Encoder encoder,
             Decoder decoder,
             @Value("${application.client.openweathermap.api.url}") String url,
@@ -50,6 +51,19 @@ public class ClientConfiguration {
                 .decoder(decoder)
                 .requestInterceptor(template -> template.query("appid", key))
                 .target(OpenWeatherMapClient.class, url);
+    }
+
+    @Bean
+    public WeatherApiClient weatherApiClient(
+            Encoder encoder,
+            Decoder decoder,
+            @Value("${application.client.weatherapi.api.url}") String url,
+            @Value("${application.client.weatherapi.api.key}") String key) {
+        return Feign.builder()
+                .encoder(encoder)
+                .decoder(decoder)
+                .requestInterceptor(template -> template.query("key", key))
+                .target(WeatherApiClient.class, url);
     }
 
 }

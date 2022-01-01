@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Alexengrig Dev.
+ * Copyright 2022 Alexengrig Dev.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,9 @@
 package dev.alexengrig.weather.service;
 
 import dev.alexengrig.weather.client.OpenWeatherMapClient;
+import dev.alexengrig.weather.client.WeatherApiClient;
 import dev.alexengrig.weather.payload.OpenWeatherMapResponse;
+import dev.alexengrig.weather.payload.WeatherApiResponse;
 import dev.alexengrig.weather.payload.WeatherRequest;
 import dev.alexengrig.weather.payload.WeatherResponse;
 import lombok.RequiredArgsConstructor;
@@ -31,24 +33,34 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ClientWeatherService implements WeatherService {
 
-    private final OpenWeatherMapClient client;
+    private final OpenWeatherMapClient openWeatherMapClient;
+    private final WeatherApiClient weatherApiClient;
 
     @Override
     public WeatherResponse getNow(WeatherRequest request) {
-        OpenWeatherMapResponse response;
-        if (request.getCityId() != null) {
-            response = client.weatherByCityId(request.getCityId());
-        } else if (request.getCityName() != null) {
-            response = client.weatherByCityName(request.getCityName());
-        } else {
-            throw new IllegalArgumentException("Invalid request");
-        }
-        String description = response.getWeather().stream()
-                .map(OpenWeatherMapResponse.Weather::getDescription)
-                .collect(Collectors.joining(", "));
+        String description = getDescriptionFromWeatherApi(request);
         return WeatherResponse.builder()
                 .description(description)
                 .build();
+    }
+
+    private String getDescriptionFromOpenWeatherMap(WeatherRequest request) {
+        OpenWeatherMapResponse response;
+        if (request.getCityId() != null) {
+            response = openWeatherMapClient.weatherByCityId(request.getCityId());
+        } else if (request.getCityName() != null) {
+            response = openWeatherMapClient.weatherByCityName(request.getCityName());
+        } else {
+            throw new IllegalArgumentException("Invalid request");
+        }
+        return response.getWeather().stream()
+                .map(OpenWeatherMapResponse.Weather::getDescription)
+                .collect(Collectors.joining(", "));
+    }
+
+    private String getDescriptionFromWeatherApi(WeatherRequest request) {
+        WeatherApiResponse response = weatherApiClient.weatherByCityName(request.getCityName());
+        return response.getCurrent().getCondition().getText();
     }
 
 }
