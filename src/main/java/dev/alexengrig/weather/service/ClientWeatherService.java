@@ -18,10 +18,12 @@ package dev.alexengrig.weather.service;
 
 import dev.alexengrig.weather.client.OpenWeatherMapClient;
 import dev.alexengrig.weather.client.WeatherApiClient;
+import dev.alexengrig.weather.client.WeatherbitClient;
 import dev.alexengrig.weather.payload.OpenWeatherMapResponse;
 import dev.alexengrig.weather.payload.WeatherApiResponse;
 import dev.alexengrig.weather.payload.WeatherRequest;
 import dev.alexengrig.weather.payload.WeatherResponse;
+import dev.alexengrig.weather.payload.WeatherbitResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
@@ -35,10 +37,11 @@ public class ClientWeatherService implements WeatherService {
 
     private final OpenWeatherMapClient openWeatherMapClient;
     private final WeatherApiClient weatherApiClient;
+    private final WeatherbitClient weatherbitClient;
 
     @Override
     public WeatherResponse getNow(WeatherRequest request) {
-        String description = getDescriptionFromWeatherApi(request);
+        String description = getDescriptionFromWeatherbit(request);
         return WeatherResponse.builder()
                 .description(description)
                 .build();
@@ -61,6 +64,14 @@ public class ClientWeatherService implements WeatherService {
     private String getDescriptionFromWeatherApi(WeatherRequest request) {
         WeatherApiResponse response = weatherApiClient.weatherByCityName(request.getCityName());
         return response.getCurrent().getCondition().getText();
+    }
+
+    private String getDescriptionFromWeatherbit(WeatherRequest request) {
+        WeatherbitResponse response = weatherbitClient.weatherByCityName(request.getCityName());
+        return response.getData().stream()
+                .map(WeatherbitResponse.Item::getWeather)
+                .map(WeatherbitResponse.Weather::getDescription)
+                .collect(Collectors.joining(", "));
     }
 
 }

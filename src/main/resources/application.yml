@@ -6,8 +6,12 @@ application:
     openweathermap:
       api:
         url: https://api.openweathermap.org/data/2.5
-        key: { key from https://home.openweathermap.org/api_keys }
+        key: # key from https://home.openweathermap.org/api_keys
     weatherapi:
       api:
         url: https://api.weatherapi.com/v1
-        key: { key from https://www.weatherapi.com/my }
+        key: # key from https://www.weatherapi.com/my
+    weatherbit:
+      api:
+        url: https://api.weatherbit.io/v2.0
+        key: # key from https://www.weatherbit.io/account/dashboard

@@ -18,6 +18,7 @@ package dev.alexengrig.weather.config;
 
 import dev.alexengrig.weather.client.OpenWeatherMapClient;
 import dev.alexengrig.weather.client.WeatherApiClient;
+import dev.alexengrig.weather.client.WeatherbitClient;
 import feign.Feign;
 import feign.codec.Decoder;
 import feign.codec.Encoder;
@@ -64,6 +65,19 @@ public class ClientConfiguration {
                 .decoder(decoder)
                 .requestInterceptor(template -> template.query("key", key))
                 .target(WeatherApiClient.class, url);
+    }
+
+    @Bean
+    public WeatherbitClient weatherbitClient(
+            Encoder encoder,
+            Decoder decoder,
+            @Value("${application.client.weatherbit.api.url}") String url,
+            @Value("${application.client.weatherbit.api.key}") String key) {
+        return Feign.builder()
+                .encoder(encoder)
+                .decoder(decoder)
+                .requestInterceptor(template -> template.query("key", key))
+                .target(WeatherbitClient.class, url);
     }
 
 }
