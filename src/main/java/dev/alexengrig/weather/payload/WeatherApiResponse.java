@@ -16,11 +16,10 @@
 
 package dev.alexengrig.weather.payload;
 
-import dev.alexengrig.weather.client.CurrentWeatherClient;
 import lombok.Data;
 
 @Data
-public class WeatherApiResponse implements CurrentWeatherClient.Response {
+public class WeatherApiResponse implements CurrentWeatherClientResponse {
 
     private Current current;
 

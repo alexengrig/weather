@@ -16,13 +16,12 @@
 
 package dev.alexengrig.weather.payload;
 
-import dev.alexengrig.weather.client.CurrentWeatherClient;
 import lombok.Data;
 
 import java.util.List;
 
 @Data
-public class OpenWeatherMapResponse implements CurrentWeatherClient.Response {
+public class OpenWeatherMapResponse implements CurrentWeatherClientResponse {
 
     private List<Weather> weather;
 

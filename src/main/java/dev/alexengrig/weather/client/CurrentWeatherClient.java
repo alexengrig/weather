@@ -16,11 +16,10 @@
 
 package dev.alexengrig.weather.client;
 
-public interface CurrentWeatherClient<R extends CurrentWeatherClient.Response> {
+import dev.alexengrig.weather.payload.CurrentWeatherClientResponse;
+
+public interface CurrentWeatherClient<R extends CurrentWeatherClientResponse> {
 
     R getByCityName(String name);
-
-    interface Response {
-    }
 
 }
