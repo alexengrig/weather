@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Alexengrig Dev.
+ * Copyright 2021-2022 Alexengrig Dev.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,36 +16,30 @@
 
 package dev.alexengrig.weather.controller;
 
-import dev.alexengrig.weather.payload.WeatherRequest;
-import dev.alexengrig.weather.service.WeatherService;
+import dev.alexengrig.weather.domain.CurrentWeather;
+import dev.alexengrig.weather.payload.CurrentWeatherResponse;
+import dev.alexengrig.weather.service.CurrentWeatherService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.convert.converter.Converter;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Objects;
-
 @RestController
 @RequestMapping("/api/weather")
 @RequiredArgsConstructor
 public class WeatherController {
 
-    private final WeatherService service;
+    private final CurrentWeatherService service;
+    private final Converter<CurrentWeather, CurrentWeatherResponse> converter;
 
-    @GetMapping("/now")
-    public ResponseEntity<Object> now(
-            @RequestParam(name = "cityId", required = false) String cityId,
-            @RequestParam(name = "cityName", required = false) String cityName) {
-        if (Objects.isNull(cityId) && Objects.isNull(cityName)) {
-            return ResponseEntity.badRequest().body("pass cityId or cityName");
-        }
-        WeatherRequest request = WeatherRequest.builder()
-                .cityName(cityId)
-                .cityName(cityName)
-                .build();
-        return ResponseEntity.ok(service.getNow(request));
+    @GetMapping("/current")
+    public ResponseEntity<CurrentWeatherResponse> currentByCityName(@RequestParam("cityName") String name) {
+        CurrentWeather currentWeather = service.getByCityName(name);
+        CurrentWeatherResponse body = converter.convert(currentWeather);
+        return ResponseEntity.ok(body);
     }
 
 }

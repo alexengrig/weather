@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Alexengrig Dev.
+ * Copyright 2021-2022 Alexengrig Dev.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-package dev.alexengrig.weather.client;
+package dev.alexengrig.weather.payload;
 
-import dev.alexengrig.weather.payload.WeatherbitResponse;
-import feign.Param;
-import feign.RequestLine;
+import lombok.Builder;
+import lombok.Data;
 
-public interface WeatherbitClient {
+@Data
+@Builder
+public class CurrentWeatherResponse {
 
-    @RequestLine("GET /current?city={name}")
-    WeatherbitResponse weatherByCityName(@Param("name") String name);
+    private final String description;
 
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Alexengrig Dev.
+ * Copyright 2021-2022 Alexengrig Dev.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package dev.alexengrig.weather.service;
+package dev.alexengrig.weather.client;
 
-import dev.alexengrig.weather.payload.WeatherRequest;
-import dev.alexengrig.weather.payload.WeatherResponse;
+public interface CurrentWeatherClient<R extends CurrentWeatherClient.Response> {
 
-public interface WeatherService {
+    R getByCityName(String name);
 
-    WeatherResponse getNow(WeatherRequest request);
+    interface Response {
+    }
 
 }

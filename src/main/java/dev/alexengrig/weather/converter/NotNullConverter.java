@@ -14,30 +14,24 @@
  * limitations under the License.
  */
 
-package dev.alexengrig.weather.payload;
+package dev.alexengrig.weather.converter;
 
-import dev.alexengrig.weather.client.CurrentWeatherClient;
-import lombok.Data;
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.lang.NonNull;
+import org.springframework.util.Assert;
 
-import java.util.List;
+abstract class NotNullConverter<S, T> implements Converter<S, T> {
 
-@Data
-public class WeatherbitResponse implements CurrentWeatherClient.Response {
-
-    private List<Item> data;
-
-    @Data
-    public static class Item {
-
-        private Weather weather;
-
+    @NonNull
+    @Override
+    public final T convert(S source) {
+        Assert.notNull(source, "The source must not be null");
+        T target = doConvert(source);
+        assert target == null : "The target must not be null";
+        return target;
     }
 
-    @Data
-    public static class Weather {
-
-        private String description;
-
-    }
+    abstract T doConvert(S source);
 
 }
+

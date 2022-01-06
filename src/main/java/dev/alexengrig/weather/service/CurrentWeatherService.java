@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Alexengrig Dev.
+ * Copyright 2021-2022 Alexengrig Dev.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,15 +14,12 @@
  * limitations under the License.
  */
 
-package dev.alexengrig.weather.payload;
+package dev.alexengrig.weather.service;
 
-import lombok.Builder;
-import lombok.Data;
+import dev.alexengrig.weather.domain.CurrentWeather;
 
-@Data
-@Builder
-public class WeatherResponse {
+public interface CurrentWeatherService {
 
-    private final String description;
+    CurrentWeather getByCityName(String name);
 
 }

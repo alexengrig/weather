@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Alexengrig Dev.
+ * Copyright 2021-2022 Alexengrig Dev.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,9 +20,10 @@ import dev.alexengrig.weather.payload.WeatherApiResponse;
 import feign.Param;
 import feign.RequestLine;
 
-public interface WeatherApiClient {
+public interface WeatherApiCurrentWeatherClient extends CurrentWeatherClient<WeatherApiResponse> {
 
+    @Override
     @RequestLine("GET /current.json?q={name}")
-    WeatherApiResponse weatherByCityName(@Param("name") String name);
+    WeatherApiResponse getByCityName(@Param("name") String name);
 
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Alexengrig Dev.
+ * Copyright 2021-2022 Alexengrig Dev.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,9 +16,9 @@
 
 package dev.alexengrig.weather.config;
 
-import dev.alexengrig.weather.client.OpenWeatherMapClient;
-import dev.alexengrig.weather.client.WeatherApiClient;
-import dev.alexengrig.weather.client.WeatherbitClient;
+import dev.alexengrig.weather.client.OpenWeatherMapCurrentWeatherClient;
+import dev.alexengrig.weather.client.WeatherApiCurrentWeatherClient;
+import dev.alexengrig.weather.client.WeatherbitCurrentWeatherClient;
 import feign.Feign;
 import feign.codec.Decoder;
 import feign.codec.Encoder;
@@ -29,7 +29,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class ClientConfiguration {
+public class CurrentWeatherClientConfiguration {
 
     @Bean
     public Encoder encoder() {
@@ -42,7 +42,7 @@ public class ClientConfiguration {
     }
 
     @Bean
-    public OpenWeatherMapClient openWeatherMapClient(
+    public OpenWeatherMapCurrentWeatherClient openWeatherMapCurrentWeatherClient(
             Encoder encoder,
             Decoder decoder,
             @Value("${application.client.openweathermap.api.url}") String url,
@@ -51,11 +51,11 @@ public class ClientConfiguration {
                 .encoder(encoder)
                 .decoder(decoder)
                 .requestInterceptor(template -> template.query("appid", key))
-                .target(OpenWeatherMapClient.class, url);
+                .target(OpenWeatherMapCurrentWeatherClient.class, url);
     }
 
     @Bean
-    public WeatherApiClient weatherApiClient(
+    public WeatherApiCurrentWeatherClient weatherApiCurrentWeatherClient(
             Encoder encoder,
             Decoder decoder,
             @Value("${application.client.weatherapi.api.url}") String url,
@@ -64,11 +64,11 @@ public class ClientConfiguration {
                 .encoder(encoder)
                 .decoder(decoder)
                 .requestInterceptor(template -> template.query("key", key))
-                .target(WeatherApiClient.class, url);
+                .target(WeatherApiCurrentWeatherClient.class, url);
     }
 
     @Bean
-    public WeatherbitClient weatherbitClient(
+    public WeatherbitCurrentWeatherClient weatherbitCurrentWeatherClient(
             Encoder encoder,
             Decoder decoder,
             @Value("${application.client.weatherbit.api.url}") String url,
@@ -77,7 +77,7 @@ public class ClientConfiguration {
                 .encoder(encoder)
                 .decoder(decoder)
                 .requestInterceptor(template -> template.query("key", key))
-                .target(WeatherbitClient.class, url);
+                .target(WeatherbitCurrentWeatherClient.class, url);
     }
 
 }

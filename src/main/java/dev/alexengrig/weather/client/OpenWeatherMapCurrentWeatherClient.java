@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Alexengrig Dev.
+ * Copyright 2021-2022 Alexengrig Dev.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-package dev.alexengrig.weather.payload;
+package dev.alexengrig.weather.client;
 
-import lombok.Builder;
-import lombok.Data;
+import dev.alexengrig.weather.payload.OpenWeatherMapResponse;
+import feign.Param;
+import feign.RequestLine;
 
-@Data
-@Builder
-public class WeatherRequest {
+public interface OpenWeatherMapCurrentWeatherClient extends CurrentWeatherClient<OpenWeatherMapResponse> {
 
-    private String cityId;
-    private String cityName;
+    @Override
+    @RequestLine("GET /weather?q={name}")
+    OpenWeatherMapResponse getByCityName(@Param("name") String name);
 
 }

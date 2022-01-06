@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Alexengrig Dev.
+ * Copyright 2021-2022 Alexengrig Dev.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,12 +16,13 @@
 
 package dev.alexengrig.weather.payload;
 
+import dev.alexengrig.weather.client.CurrentWeatherClient;
 import lombok.Data;
 
 import java.util.List;
 
 @Data
-public class OpenWeatherMapResponse {
+public class OpenWeatherMapResponse implements CurrentWeatherClient.Response {
 
     private List<Weather> weather;
 

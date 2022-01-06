@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Alexengrig Dev.
+ * Copyright 2021-2022 Alexengrig Dev.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,16 +16,14 @@
 
 package dev.alexengrig.weather.client;
 
-import dev.alexengrig.weather.payload.OpenWeatherMapResponse;
+import dev.alexengrig.weather.payload.WeatherbitResponse;
 import feign.Param;
 import feign.RequestLine;
 
-public interface OpenWeatherMapClient {
+public interface WeatherbitCurrentWeatherClient extends CurrentWeatherClient<WeatherbitResponse> {
 
-    @RequestLine("GET /weather?q={name}")
-    OpenWeatherMapResponse weatherByCityName(@Param("name") String name);
-
-    @RequestLine("GET /weather?id={id}")
-    OpenWeatherMapResponse weatherByCityId(@Param("id") String id);
+    @Override
+    @RequestLine("GET /current?city={name}")
+    WeatherbitResponse getByCityName(@Param("name") String name);
 
 }

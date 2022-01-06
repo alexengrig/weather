@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Alexengrig Dev.
+ * Copyright 2021-2022 Alexengrig Dev.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,25 +14,15 @@
  * limitations under the License.
  */
 
-package dev.alexengrig.weather.config;
+package dev.alexengrig.weather.domain;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import lombok.Builder;
+import lombok.Data;
 
-import java.util.List;
-import java.util.random.RandomGenerator;
+@Data
+@Builder
+public class CurrentWeather {
 
-@Configuration
-public class MainConfiguration {
-
-    @Bean
-    public RandomGenerator randomGenerator() {
-        return RandomGenerator.getDefault();
-    }
-
-    @Bean
-    public List<String> descriptions() {
-        return List.of("sunny", "rainy", "cloudy");
-    }
+    private String description;
 
 }
