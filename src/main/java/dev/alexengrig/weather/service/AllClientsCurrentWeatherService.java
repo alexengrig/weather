@@ -18,6 +18,8 @@ package dev.alexengrig.weather.service;
 
 import dev.alexengrig.weather.client.CurrentWeatherClient;
 import dev.alexengrig.weather.domain.CurrentWeather;
+import dev.alexengrig.weather.entity.HistoricalWeatherEntity;
+import dev.alexengrig.weather.repository.HistoricalWeatherRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.convert.ConversionService;
@@ -33,6 +35,7 @@ public class AllClientsCurrentWeatherService implements CurrentWeatherService {
 
     private final List<CurrentWeatherClient<?>> clients;
     private final ConversionService conversionService;
+    private final HistoricalWeatherRepository repository;
 
     @Override
     public CurrentWeather getByCityName(String name) {
@@ -41,9 +44,12 @@ public class AllClientsCurrentWeatherService implements CurrentWeatherService {
                 .map(o -> conversionService.convert(o, CurrentWeather.class))
                 .map(CurrentWeather::getDescription)
                 .collect(Collectors.joining(", "));
-        return CurrentWeather.builder()
+        CurrentWeather currentWeather = CurrentWeather.builder()
                 .description(description)
                 .build();
+        HistoricalWeatherEntity entity = conversionService.convert(currentWeather, HistoricalWeatherEntity.class);
+        repository.save(entity);
+        return currentWeather;
     }
 
 }
